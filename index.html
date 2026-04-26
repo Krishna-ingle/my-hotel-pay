@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting to Payment...</title>
+    <script>
+        window.onload = function() {
+            // Grab the variables from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const pa = urlParams.get('pa');
+            const pn = urlParams.get('pn');
+            const am = urlParams.get('am');
+
+            if(pa && pn && am) {
+                // Fire the UPI intent
+                window.location.href = `upi://pay?pa=${pa}&pn=${pn}&am=${am}&cu=INR`;
+            }
+        }
+    </script>
+</head>
+<body style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+    <h2>Opening Payment Apps...</h2>
+    <p>Please select GPay, PhonePe, or Paytm from the popup on your screen.</p>
+</body>
+</html>
