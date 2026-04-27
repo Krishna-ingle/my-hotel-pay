@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pay Krishna - Hotel Bill</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- QR code library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body class="bg-slate-100 flex items-center justify-center min-h-screen font-sans">
@@ -14,20 +13,22 @@
         <h2 class="text-2xl font-bold text-slate-800 mb-1">Hotel Bill Payment</h2>
         <p class="text-slate-500 text-sm mb-6">Pay Krishna Domababu Ingle</p>
 
-        <!-- MOBILE: shown only on phones -->
+        <!-- MOBILE -->
         <div id="mobile-section" class="hidden">
-            <p class="text-slate-600 mb-4 text-sm">Tap below to open your UPI app (GPay, PhonePe, Paytm)</p>
-            <a id="upi-btn"
-               href="upi://pay?pa=9579465525@pthdfc&pn=Krishna%20Domababu%20Ingle&tn=Hotel%20Bill&cu=INR"
-               class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 w-full block transition-colors">
-                Pay Now
+            <p class="text-slate-600 mb-5 text-sm">Tap the button to open GPay, PhonePe, or Paytm</p>
+
+            <a href="upi://pay?pa=9579465525@pthdfc&pn=Krishna%20Domababu%20Ingle&tn=Hotel%20Bill&cu=INR"
+               class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 w-full block transition-colors text-lg mb-3">
+               Pay Now (UPI)
             </a>
+
+            <p class="text-xs text-slate-400 mt-2">UPI ID: 9579465525@pthdfc</p>
         </div>
 
-        <!-- DESKTOP: shown only on computers -->
+        <!-- DESKTOP -->
         <div id="desktop-section" class="hidden">
-            <p class="text-slate-600 mb-4 text-sm">Scan this QR code with your phone's camera or any UPI app</p>
-            <div id="qrcode" class="flex justify-center mb-4"></div>
+            <p class="text-slate-600 mb-4 text-sm">Scan with your phone camera or any UPI app</p>
+            <div id="qrcode" class="flex justify-center mb-3"></div>
             <p class="text-xs text-slate-400">UPI ID: 9579465525@pthdfc</p>
         </div>
     </div>
@@ -38,11 +39,8 @@
 
         if (isMobile) {
             document.getElementById('mobile-section').classList.remove('hidden');
-            // Auto-open UPI app
-            window.location.href = upiUrl;
         } else {
             document.getElementById('desktop-section').classList.remove('hidden');
-            // Generate QR code
             new QRCode(document.getElementById("qrcode"), {
                 text: upiUrl,
                 width: 180,
