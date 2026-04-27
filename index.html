@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pay Krishna - Hotel Bill</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body class="bg-slate-100 flex items-center justify-center min-h-screen font-sans">
 
@@ -13,39 +12,29 @@
         <h2 class="text-2xl font-bold text-slate-800 mb-1">Hotel Bill Payment</h2>
         <p class="text-slate-500 text-sm mb-6">Pay Krishna Domababu Ingle</p>
 
-        <!-- MOBILE -->
-        <div id="mobile-section" class="hidden">
-            <p class="text-slate-600 mb-5 text-sm">Tap the button to open GPay, PhonePe, or Paytm</p>
-
-            <a href="upi://pay?pa=9579465525@pthdfc&pn=Krishna%20Domababu%20Ingle&tn=Hotel%20Bill&cu=INR"
-               class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 w-full block transition-colors text-lg mb-3">
-               Pay Now (UPI)
-            </a>
-
-            <p class="text-xs text-slate-400 mt-2">UPI ID: 9579465525@pthdfc</p>
+        <div class="mb-5 text-left">
+            <label class="text-slate-600 text-sm font-medium mb-1 block">Enter Amount (₹)</label>
+            <input type="number" id="amount" placeholder="e.g. 1500"
+                class="w-full border border-slate-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
         </div>
 
-        <!-- DESKTOP -->
-        <div id="desktop-section" class="hidden">
-            <p class="text-slate-600 mb-4 text-sm">Scan with your phone camera or any UPI app</p>
-            <div id="qrcode" class="flex justify-center mb-3"></div>
-            <p class="text-xs text-slate-400">UPI ID: 9579465525@pthdfc</p>
-        </div>
+        <button onclick="payNow()"
+            class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg w-full text-lg hover:bg-blue-700 transition-colors">
+            Pay Now (UPI)
+        </button>
+
+        <p class="text-xs text-slate-400 mt-4">UPI ID: 9579465525@pthdfc</p>
     </div>
 
     <script>
-        const upiUrl = "upi://pay?pa=9579465525@pthdfc&pn=Krishna%20Domababu%20Ingle&tn=Hotel%20Bill&cu=INR";
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-        if (isMobile) {
-            document.getElementById('mobile-section').classList.remove('hidden');
-        } else {
-            document.getElementById('desktop-section').classList.remove('hidden');
-            new QRCode(document.getElementById("qrcode"), {
-                text: upiUrl,
-                width: 180,
-                height: 180,
-            });
+        function payNow() {
+            const amount = document.getElementById('amount').value;
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            const upiUrl = `upi://pay?pa=9579465525@pthdfc&pn=Krishna%20Domababu%20Ingle&tn=Hotel%20Bill&am=${amount}&cu=INR`;
+            window.location.href = upiUrl;
         }
     </script>
 </body>
