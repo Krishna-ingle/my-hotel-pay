@@ -3,37 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Payment</title>
+    <title>Pay Krishna - Hotel Bill</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        window.onload = function() {
-            // Krishna's exact UPI string
-            const upiUrl = "upi://pay?pa=9579465525@pthdfc&pn=Krishna%20Domababu%20Ingle&tn=Hotel%20Bill&cu=INR";
-            
-            // Attempt to auto-open the app selector immediately
-            window.location.href = upiUrl;
-            
-            // Fallback button if auto-redirect gets blocked by the browser
-            setTimeout(function() {
-                document.getElementById('fallback').style.display = 'block';
-            }, 2500);
-        };
-    </script>
+    <!-- QR code library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
-<body class="bg-slate-100 flex items-center justify-center h-screen font-sans">
+<body class="bg-slate-100 flex items-center justify-center min-h-screen font-sans">
 
     <div class="bg-white p-8 rounded-xl shadow-lg text-center max-w-sm w-full border-t-4 border-blue-600">
-        <h2 class="text-2xl font-bold text-slate-800 mb-2">Opening Secure Payment...</h2>
-        <p class="text-slate-500 mb-6 text-sm">Please wait while we safely connect to your installed payment apps (GPay, PhonePe, Paytm).</p>
-        
-        <div id="fallback" style="display: none;">
-            <p class="text-slate-700 mb-4 font-medium">If the prompt didn't appear automatically, tap the button below:</p>
-            <a href="upi://pay?pa=9579465525@pthdfc&pn=Krishna%20Domababu%20Ingle&tn=Hotel%20Bill&cu=INR" 
+        <h2 class="text-2xl font-bold text-slate-800 mb-1">Hotel Bill Payment</h2>
+        <p class="text-slate-500 text-sm mb-6">Pay Krishna Domababu Ingle</p>
+
+        <!-- MOBILE: shown only on phones -->
+        <div id="mobile-section" class="hidden">
+            <p class="text-slate-600 mb-4 text-sm">Tap below to open your UPI app (GPay, PhonePe, Paytm)</p>
+            <a id="upi-btn"
+               href="upi://pay?pa=9579465525@pthdfc&pn=Krishna%20Domababu%20Ingle&tn=Hotel%20Bill&cu=INR"
                class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 w-full block transition-colors">
-                Pay Krishna Now
+                Pay Now
             </a>
+        </div>
+
+        <!-- DESKTOP: shown only on computers -->
+        <div id="desktop-section" class="hidden">
+            <p class="text-slate-600 mb-4 text-sm">Scan this QR code with your phone's camera or any UPI app</p>
+            <div id="qrcode" class="flex justify-center mb-4"></div>
+            <p class="text-xs text-slate-400">UPI ID: 9579465525@pthdfc</p>
         </div>
     </div>
 
+    <script>
+        const upiUrl = "upi://pay?pa=9579465525@pthdfc&pn=Krishna%20Domababu%20Ingle&tn=Hotel%20Bill&cu=INR";
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            document.getElementById('mobile-section').classList.remove('hidden');
+            // Auto-open UPI app
+            window.location.href = upiUrl;
+        } else {
+            document.getElementById('desktop-section').classList.remove('hidden');
+            // Generate QR code
+            new QRCode(document.getElementById("qrcode"), {
+                text: upiUrl,
+                width: 180,
+                height: 180,
+            });
+        }
+    </script>
 </body>
 </html>
